@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CartService;
-use App\Models\CartItem; // ✅ IMPORTANT
+use App\Models\CartItem;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -67,7 +67,7 @@ class CartController extends Controller
     }
 
     /* ===============================
-       UPDATE CART ✅ FIXED
+       UPDATE CART (SESSION SECURE)
     ===============================*/
     public function update(UpdateCartRequest $request): JsonResponse
     {
@@ -77,9 +77,11 @@ class CartController extends Controller
 
             $this->cartService->updateQuantity($cartItemId, $quantity);
 
+            // ✅ SECURITY FIX: session check
             $item = CartItem::with('product')
-                ->currentSession()
-                ->findOrFail($cartItemId);
+                ->where('id', $cartItemId)
+                ->where('session_id', session()->getId())
+                ->firstOrFail();
 
             return response()->json([
                 'status'        => true,
@@ -100,7 +102,7 @@ class CartController extends Controller
     }
 
     /* ===============================
-       REMOVE ITEM ✅ FIXED
+       REMOVE ITEM (SESSION SECURE)
     ===============================*/
     public function remove(int $id): JsonResponse
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\CartItem;
 
 class UpdateCartRequest extends FormRequest
 {
@@ -20,8 +21,20 @@ class UpdateCartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cart_item_id' => ['required', 'integer', 'exists:cart_items,id'],
-            'quantity'     => ['required', 'integer', 'min:1'],
+            'cart_item_id' => [
+                'required',
+                'integer',
+                function ($attribute, $value, $fail) {
+                    $exists = CartItem::where('id', $value)
+                        ->where('session_id', session()->getId())
+                        ->exists();
+
+                    if (! $exists) {
+                        $fail('This cart item does not belong to your session.');
+                    }
+                }
+            ],
+            'quantity' => ['required', 'integer', 'min:1'],
         ];
     }
 
@@ -33,7 +46,6 @@ class UpdateCartRequest extends FormRequest
         return [
             'cart_item_id.required' => 'Cart item missing.',
             'cart_item_id.integer'  => 'Invalid cart item.',
-            'cart_item_id.exists'   => 'This cart item no longer exists.',
 
             'quantity.required' => 'Please enter quantity.',
             'quantity.integer'  => 'Quantity must be a number.',
