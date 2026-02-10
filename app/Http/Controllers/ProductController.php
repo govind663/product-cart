@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -38,7 +39,7 @@ class ProductController extends Controller
 
         } catch (Exception $e) {
 
-            // \Log::error($e->getMessage());
+            Log::error($e->getMessage());
 
             if ($request->ajax()) {
                 return response()->json([
