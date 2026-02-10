@@ -4,46 +4,33 @@ namespace App\Services;
 
 use App\Models\CartItem;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
 
 class CartService
 {
+    /**
+     * Get current session id
+     */
     protected function sessionId(): string
     {
         return session()->getId();
     }
 
     /**
-     * Base query for current session
+     * Get all cart items for current session
      */
-    protected function baseQuery()
-    {
-        return CartItem::with('product')
-            ->where('session_id', $this->sessionId());
-    }
-
-    /**
-     * Clear cart cache (for navbar count)
-     */
-    protected function clearCartCache(): void
-    {
-        Cache::forget('cart_count_' . $this->sessionId());
-    }
-
     public function getCartItems(): Collection
     {
-        return $this->baseQuery()->get();
+        return CartItem::with('product')
+            ->currentSession()
+            ->get();
     }
 
     /**
-     * Add product to cart (SAFE + ATOMIC)
+     * Add product to cart (SAFE + INCREMENT)
      */
     public function addToCart(int $productId): CartItem
     {
-        $this->clearCartCache();
-
-        $item = CartItem::where('session_id', $this->sessionId())
+        $item = CartItem::currentSession()
             ->where('product_id', $productId)
             ->first();
 
@@ -55,18 +42,18 @@ class CartService
         return CartItem::create([
             'session_id' => $this->sessionId(),
             'product_id' => $productId,
-            'quantity'   => 1,
+            'quantity'   => 1, // ✅ minimum 1
         ]);
     }
 
     /**
-     * Update cart item quantity
+     * Update cart item quantity (MIN = 1)
      */
     public function updateQuantity(int $cartItemId, int $quantity): ?CartItem
     {
-        $this->clearCartCache();
-
-        $item = $this->baseQuery()->where('id', $cartItemId)->first();
+        $item = CartItem::currentSession()
+            ->where('id', $cartItemId)
+            ->first();
 
         if (! $item) {
             return null;
@@ -80,47 +67,50 @@ class CartService
     }
 
     /**
-     * Remove cart item
+     * Remove cart item safely
      */
     public function removeItem(int $cartItemId): bool
     {
-        $this->clearCartCache();
-
-        return (bool) $this->baseQuery()
+        return (bool) CartItem::currentSession()
             ->where('id', $cartItemId)
             ->delete();
     }
 
     /**
-     * Clear full cart
+     * Clear full cart (OPTIONAL – useful for checkout success)
      */
     public function clearCart(): void
     {
-        $this->clearCartCache();
-
-        $this->baseQuery()->delete();
+        CartItem::currentSession()->delete();
     }
 
     /**
-     * Optimized cart summary (1 query)
+     * Get cart total amount
      */
-    public function getCartSummary(): array
+    public function getCartTotal(): float
     {
-        $items = $this->getCartItems();
-
-        return [
-            'items'      => $items,
-            'cart_total' => $items->sum(fn ($item) => (float) $item->subtotal),
-            'cart_count' => $items->sum('quantity'),
-        ];
+        return $this->getCartItems()
+            ->sum(fn ($item) => (float) $item->subtotal);
     }
 
     /**
-     * Fast navbar cart count (no join)
+     * Get total quantity count (navbar badge)
      */
     public function getCartCount(): int
     {
-        return (int) CartItem::where('session_id', $this->sessionId())
+        return (int) CartItem::currentSession()
             ->sum('quantity');
+    }
+
+    /**
+     * Get formatted cart summary (AJAX friendly)
+     */
+    public function getCartSummary(): array
+    {
+        return [
+            'items'       => $this->getCartItems(),
+            'cart_total'  => $this->getCartTotal(),
+            'cart_count'  => $this->getCartCount(),
+        ];
     }
 }

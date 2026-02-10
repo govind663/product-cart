@@ -108,6 +108,52 @@
         }
 
         /* ===============================
+        EMPTY PRODUCTS
+        =============================== */
+        .empty-products {
+            text-align: center;
+        }
+
+        .empty-products h4 {
+            font-size: 1.2rem;
+        }
+
+        .empty-products p {
+            font-size: .9rem;
+        }
+
+        .empty-products a {
+            font-size: .9rem;
+        }
+
+        /* ===============================
+        LOAD MORE BUTTON
+        =============================== */
+        .btn-load {
+            background: #2874f0;  /* Blue color */
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-size: .85rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-load:hover {
+            background: #0d5ae5;  /* Darker blue on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(40, 116, 240, 0.35);
+        }
+
+        .btn-load:disabled {
+            background: #a0c4ff;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* ===============================
         RESPONSIVE
         =============================== */
         @media(max-width:576px) {
