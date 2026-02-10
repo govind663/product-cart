@@ -34,9 +34,6 @@ A modern, optimized **shopping cart system** built with **Laravel 11** using **S
 
 ## 🚀 Installation Guide
 
-### Prerequisites
-
-### Quick Start (5 minutes)
 ```bash
 # 1. Clone & Install
 git clone https://github.com/govind663/product-cart.git
