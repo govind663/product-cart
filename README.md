@@ -50,27 +50,31 @@ The project focuses on:
 ```text
 app/
 ├── Models/
-│ ├── Product.php
-│ └── CartItem.php
+│   ├── Product.php
+│   └── CartItem.php
 ├── Services/
-│ └── CartService.php
+│   └── CartService.php
 ├── Http/
-│ └── Controllers/
-│ └── CartController.php
+│   └── Controllers/
+│       └── CartController.php
 ├── Providers/
-│ └── AppServiceProvider.php
+│   └── AppServiceProvider.php
 
 resources/
 └── views/
-├── layouts/
-├── products/
-└── cart/
+    ├── layouts/
+    ├── products/
+    └── cart/
 
 routes/
 └── web.php
 
-⚙️ Installation Guide
-1️⃣ Clone the Repository
+---
+
+## ⚙️ Installation Guide
+
+### 1️⃣ Clone the Repository
+```bash
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
 
@@ -107,34 +111,3 @@ php artisan serve
 Open your browser and visit:
 
 http://127.0.0.1:8000
-
-🗄️ Database Structure
-📦 Products Table (products)
-Column Name	Type	Description
-id	bigint	Primary Key
-name	string	Product Name
-price	decimal	Product Price
-description	text	Product Description
-created_at	timestamp	Created Time
-updated_at	timestamp	Updated Time
-🛒 Cart Items Table (cart_items)
-Column Name	Type	Description
-id	bigint	Primary Key
-session_id	string	Session Identifier
-product_id	bigint	Foreign Key (products.id)
-quantity	integer	Product Quantity
-created_at	timestamp	Created Time
-updated_at	timestamp	Updated Time
-🔄 Application Flow
-
-User visits product listing page.
-
-User adds product to cart.
-
-CartService handles cart logic (add/update/remove).
-
-Cart data is stored using session ID.
-
-Navbar cart count updates dynamically.
-
-Cart page displays items and total price.
