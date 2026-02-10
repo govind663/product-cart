@@ -1,89 +1,163 @@
-<p align="center">
-<a href="https://laravel.com" target="_blank">
-<img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo">
-</a>
-</p>
+# 🛒 Laravel E-Commerce Cart System
 
-<h1 align="center">Laravel E-Commerce Cart System</h1>
+![Laravel Logo](https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg)
 
-<p align="center">
-A modern shopping cart system built with Laravel using Service Layer Architecture, optimized performance, and session-based cart management.
-</p>
+A modern and optimized shopping cart system built with Laravel using **Service Layer Architecture**, **performance optimization**, and **session-based cart management**.
 
 ---
 
 ## 📌 Project Overview
 
 This project is a **Laravel-based E-Commerce Cart System** developed as an assignment.  
-It includes product listing, cart management, optimized backend logic, and frontend integration using Blade templates.
+It provides complete cart functionality with clean architecture, optimized backend logic, and dynamic frontend integration using Blade templates.
 
-The system is designed with clean architecture, performance optimization, and secure session handling.
+The project focuses on:
+- Scalability
+- Performance optimization
+- Clean code structure
+- Secure session handling
 
 ---
 
-## ⚙️ Features
+## ✨ Key Features
 
-### 🛒 Cart Features
-- Add product to cart
-- Update product quantity (+ / -)
-- Remove product from cart
-- Clear cart
-- Cart count in navbar
-- Cart total price calculation
-- Session-based cart system
-- Optimized cart service logic
+### 🛒 Cart Management
+- Add products to cart
+- Increase / decrease product quantity
+- Remove products from cart
+- Clear entire cart
+- Dynamic cart count in navbar
+- Automatic cart total calculation
+- Session-based cart handling
 
-### ⚡ Performance Optimizations
+### ⚡ Backend Optimization
 - Service Layer (`CartService`)
-- View Composer optimization
-- Caching for cart count
-- Reduced database queries
-- Secure session-based operations
+- Reusable business logic
+- Optimized database queries
+- Secure session validation
+- View Composer optimization for cart count
 
-### 🎨 Frontend Features
-- Blade templates integration
-- Dynamic cart update (AJAX ready)
-- Responsive UI for cart and product pages
+### 🎨 Frontend Integration
+- Blade template-based UI
+- Dynamic cart updates (AJAX ready)
+- Responsive cart & product pages
+- User-friendly interface
 
 ---
 
-## ⚙️ Installation Steps
+## 🏗️ Project Architecture
+app/
+├── Models/
+│ ├── Product.php
+│ └── CartItem.php
+├── Services/
+│ └── CartService.php
+├── Http/
+│ └── Controllers/
+│ └── CartController.php
+├── Providers/
+│ └── AppServiceProvider.php
 
-### 1️⃣ Install Dependencies
+resources/
+└── views/
+├── layouts/
+├── products/
+└── cart/
 
-```bash
-composer install
+routes/
+└── web.php
 
-### 2️⃣ Create Environment File
 
-```bash
-cp .env.example .env
+---
 
-### 3️⃣ Generate Application Key
+## ⚙️ Installation Guide
 
-```bash
-php artisan key:generate
-
-### 4️⃣ Configure Database
-
-```bash
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=your_database_name
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-
-### 5️⃣ Run Database Migrations
-
-```bash
-php artisan migrate
-
-### 6️⃣ Seed Sample Data
+### 1️⃣ Clone the Repository
 
 ```bash
-php artisan db:seed
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
 
-### 7️⃣ Start the Application
-```bash
-php artisan serve
+installation_steps:
+  - step: "Install Dependencies"
+    command: "composer install"
+
+  - step: "Create Environment File"
+    command: "cp .env.example .env"
+
+  - step: "Generate Application Key"
+    command: "php artisan key:generate"
+
+  - step: "Configure Database"
+    env_config:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: your_database_name
+      DB_USERNAME: your_username
+      DB_PASSWORD: your_password
+
+  - step: "Run Database Migrations"
+    command: "php artisan migrate"
+
+  - step: "Seed Sample Data (Optional)"
+    command: "php artisan db:seed"
+
+  - step: "Start the Application"
+    command: "php artisan serve"
+
+  - step: "Application URL"
+    url: "http://127.0.0.1:8000"
+
+database_structure:
+  products_table:
+    table_name: products
+    columns:
+      - name: id
+        type: bigint
+        description: "Primary Key"
+      - name: name
+        type: string
+        description: "Product Name"
+      - name: price
+        type: decimal
+        description: "Product Price"
+      - name: description
+        type: text
+        description: "Product Description"
+      - name: created_at
+        type: timestamp
+        description: "Created Time"
+      - name: updated_at
+        type: timestamp
+        description: "Updated Time"
+
+  cart_items_table:
+    table_name: cart_items
+    columns:
+      - name: id
+        type: bigint
+        description: "Primary Key"
+      - name: session_id
+        type: string
+        description: "Session Identifier"
+      - name: product_id
+        type: bigint
+        description: "Foreign Key (products.id)"
+      - name: quantity
+        type: integer
+        description: "Product Quantity"
+      - name: created_at
+        type: timestamp
+        description: "Created Time"
+      - name: updated_at
+        type: timestamp
+        description: "Updated Time"
+
+application_flow:
+  - step: "User visits product listing page"
+  - step: "User adds product to cart"
+  - step: "CartService handles cart logic (add/update/remove)"
+  - step: "Cart data is stored using session ID"
+  - step: "Navbar cart count updates dynamically"
+  - step: "Cart page displays items and total price"
