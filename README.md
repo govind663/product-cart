@@ -32,34 +32,6 @@ A modern, optimized **shopping cart system** built with **Laravel 11** using **S
 
 ---
 
-## 🚀 Installation Guide
-
-```bash
-# 1. Clone & Install
-git clone https://github.com/govind663/product-cart.git
-cd laravel-ecommerce-cart
-composer install
-
-# 2. Setup Environment
-cp .env.example .env
-php artisan key:generate
-
-# 3. Database (.env)
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_DATABASE=ecommerce_cart
-
-# 4. Migrate & Seed
-php artisan migrate
-php artisan db:seed
-
-# 5. Serve
-php artisan serve
-
-🌐 **Live Demo:** `http://127.0.0.1:8000`
-
----
-
 ## 🏗️ Project Architecture
 
 📁 app/
@@ -142,10 +114,42 @@ php artisan serve
 
 ## 🛠️ Tech Stack
 
-```yaml
 Framework: Laravel 12
 Database: MySQL 8.2+
 Frontend: Blade + Tailwind CSS
 Architecture: Service Layer Pattern
 Storage: Session-based (Redis Ready)
 Deployment: Forge/Vapor Ready
+---
+
+## 🚀 Installation Guide
+
+### Quick Start (5 minutes)
+
+# 1. Clone & Install
+git clone https://github.com/govind663/product-cart.git
+cd product-cart
+composer install
+
+# 2. Setup Environment
+cp .env.example .env
+php artisan key:generate
+
+# 3. Database (.env)
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_DATABASE=ecommerce_cart
+
+# 4. Migrate & Seed
+php artisan migrate
+php artisan db:seed
+
+# 5. Serve
+php artisan serve
+
+## 🌐 Live Demo: http://127.0.0.1:8000
+
+
+
+
+
